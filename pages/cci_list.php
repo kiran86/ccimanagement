@@ -67,7 +67,7 @@ $obj = new DbFunction();
                   <div class="col-md-12">
                     <div class="card card-round border-dark">
                       <div class="card-header">
-                        <form class="filter-form" id="filter-form">
+                        <form class="filter-form" id="filter-form" enctype="multipart/form-data" method="POST">
                           <div class="row">
                             <div class="col-sm-2">
                               <div class="form-floating">
@@ -97,7 +97,7 @@ $obj = new DbFunction();
                                 <label for="run_by">Run By</label>
                               </div>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-4">
                               <div class="form-floating">
                                 <select id="category" class="form-control" multiple>
                                   <option value="">Select CCI Category</option>
@@ -117,14 +117,24 @@ $obj = new DbFunction();
                                   <option value="">Select one</option>
                                   <option value="yes">Yes</option>
                                   <option value="no">No</option>
-                                  <option value="both">All</option>
                                 </select>
                                 <label for="pab_approval">Is PAB Approved?</label>
                               </div>
                             </div>
+                            <div class="col-sm-2">
+                              <div class="form-floating">
+                                <select id="valid_reg" class="form-control">
+                                  <option value="">Select one</option>
+                                  <option value="yes">Yes</option>
+                                  <option value="no">No</option>
+                                </select>
+                                <label for="valid_reg">Valid Registration?</label>
+                              </div>
+                            </div>
+                          </div>
                         </form>
                       </div>
-                      <div class="card-body border-dark">
+                      <div class="card-body border border-dark border-2">
                         <div class="table-responsive">
                           <!-- CCI table -->
                           <table id="cci-table" class="display table table-striped table-hover table-bordered">
@@ -213,14 +223,20 @@ $obj = new DbFunction();
             populateCCIData();
         });
 
+        $("#pab_approval").on("change", function() {
+          populateCCIData();
+        });
+
         // Get data from server and populate modal
         const formModal = document.getElementById('formModal');
 
         function populateCCIData() {
-          // var data = event.relatedTarget.getAttribute('data-bs-whatever');
-          var data = $('.btnDataModal').attr('data-bs-whatever');
-          var formData = new FormData();
-          formData.append('data', data);
+          $('#filter-form').submit(function (event) {
+            event.preventDefault();
+          });
+          var formFilter = document.getElementById('filter-form');
+          var formData = new FormData(formFilter);
+          console.log(formData);
           $.ajax({
               url: "get_cci_details.php",
               type: "POST",
@@ -228,6 +244,7 @@ $obj = new DbFunction();
               dataType: 'json',
               success: function(response){
                 cci_table = $("#cci-table").DataTable({
+                  destroy: true,
                   data: response.ccidata,
                   columnDefs: [
                     {
