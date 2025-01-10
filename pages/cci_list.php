@@ -67,11 +67,11 @@ $obj = new DbFunction();
                   <div class="col-md-12">
                     <div class="card card-round border-dark">
                       <div class="card-header">
-                        <form class="filter-form" id="filter-form" enctype="multipart/form-data" method="POST">
+                        <form id="filter-form" method="POST">
                           <div class="row">
                             <div class="col-sm-2">
                               <div class="form-floating">
-                                <select id="district" class="form-control">
+                                <select id="district" name="district" class="form-control">
                                   <option value="">Select District</option>
                                   <?php
                                   $districts = $obj->get_filter_values('district');
@@ -85,7 +85,7 @@ $obj = new DbFunction();
                             </div>
                             <div class="col-sm-2">
                               <div class="form-floating">
-                                <select id="run_by" class="form-control">
+                                <select id="run_by" name="run_by" class="form-control">
                                   <option value="">Select CCI run by</option>
                                   <?php
                                   $run_by = $obj->get_filter_values('run_by');
@@ -113,7 +113,7 @@ $obj = new DbFunction();
                             </div>
                             <div class="col-sm-2">
                               <div class="form-floating">
-                                <select id="pab_approval" class="form-control">
+                                <select id="pab_approval" name="pab_approval" class="form-control">
                                   <option value="">Select one</option>
                                   <option value="yes">Yes</option>
                                   <option value="no">No</option>
@@ -123,7 +123,7 @@ $obj = new DbFunction();
                             </div>
                             <div class="col-sm-2">
                               <div class="form-floating">
-                                <select id="valid_reg" class="form-control">
+                                <select id="valid_reg" name="valid_reg" class="form-control">
                                   <option value="">Select one</option>
                                   <option value="yes">Yes</option>
                                   <option value="no">No</option>
@@ -227,13 +227,18 @@ $obj = new DbFunction();
           populateCCIData();
         });
 
+        $("#district").on("change", function() {
+          populateCCIData();
+        });
+
+        $("#run_by").on("change", function() {
+          populateCCIData();
+        });
+
         // Get data from server and populate modal
         const formModal = document.getElementById('formModal');
 
         function populateCCIData() {
-          $('#filter-form').submit(function (event) {
-            event.preventDefault();
-          });
           var formFilter = document.getElementById('filter-form');
           var formData = new FormData(formFilter);
           console.log(formData);
