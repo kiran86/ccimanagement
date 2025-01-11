@@ -58,10 +58,7 @@ $obj = new DbFunction();
     <div class="wrapper">
         <?php include('sidebar.php');?>
         <div class="main-panel">
-            <div class="main-header">
-              <?php include('header.php');?>
-            </div>
-            <div class="container">
+            <div class="container" style="margin-top: 0px;">
               <div class="page-inner">
                 <div class="row">
                   <div class="col-md-12">
@@ -69,7 +66,7 @@ $obj = new DbFunction();
                       <div class="card-header">
                         <form id="filter-form" method="POST">
                           <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                               <div class="form-floating">
                                 <select id="district" name="district" class="form-control">
                                   <option value="">Select District</option>
@@ -83,7 +80,7 @@ $obj = new DbFunction();
                                 <label for="district">District</label>
                               </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                               <div class="form-floating">
                                 <select id="run_by" name="run_by" class="form-control">
                                   <option value="">Select CCI run by</option>
@@ -107,12 +104,28 @@ $obj = new DbFunction();
                                 <label for="pab_approval">Is PAB Approved?</label>
                               </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                               <div class="form-floating">
                                 <input type="date" id="reg_valid_upto" name="reg_valid_upto" class="form-control" min="<?php echo date("Y-m-d"); ?>"/>
                                 <label for="reg_valid_upto">Valid Registration till</label>
                               </div>
                             </div>
+                            <?php if (isset($_SESSION['login'])) { ?>
+                            <div class="col-sm-2">
+                              <div class="form-floating">
+                                <select id="reg_file_status" name="reg_file_status" class="form-control">
+                                  <option value="">Select one</option>
+                                  <?php
+                                  $file_status = $obj->get_reg_file_status();
+                                  foreach ($file_status as $val) {
+                                    echo '<option value="'. $val[0]. '">'. $val[1]. '</option>';
+                                  }
+                                  ?>
+                                </select>
+                                <label for="reg_file_status">File Status?</label>
+                              </div>
+                            </div>
+                            <?php }?>
                             <div class="col-sm-1">
                               <button id="reset-form" type="reset" class="btn btn-outline-dark btn-lg">Reset</button>
                             </div>
@@ -137,7 +150,6 @@ $obj = new DbFunction();
                               <th>Registration No.<br>(10)</th>
                               <th>Date<br>(11)</th>
                               <th>Valid Upto<br>(12)</th>
-                              <!-- <th colspan="2">Action</th> -->
                             </thead>
                           </table>
                         </div>
@@ -224,6 +236,12 @@ $obj = new DbFunction();
           populateCCIData();
         });
 
+        <?php if (isset($_SESSION['login'])) { ?>
+        $("#reg_file_status").on("change", function() {
+          populateCCIData();
+        });
+        <?php }?>
+
         $("#filter-form").on("reset", function(e) {
           setTimeout(function() {
             populateCCIData();
@@ -282,6 +300,7 @@ $obj = new DbFunction();
                   scrollY: '50vh'
                 });
                 // Row selection
+                <?php if (isset ( $_SESSION ['login'] )) { ?>
                 cci_table.on('select', function (e, dt, type, indexes) {
                   var rowData = cci_table.row(indexes).data();
                   if (rowData[0] > 0) {
@@ -297,6 +316,7 @@ $obj = new DbFunction();
                     populateFormModal(rowData[0] + ',' + rowData[1] + ',' + rowData[22]);
                   }
                 })
+                <?php } ?>
               },
               error: function(xhr, status, error) {
                   console.error('AJAX Error: ' + status + error);

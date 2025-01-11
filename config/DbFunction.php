@@ -5,7 +5,7 @@ class DbFunction{
 	function get_login(){
 		$db = Database::getInstance();
         $mysqli = $db->getConnection();
-        $query = "SELECT * FROM login";
+        $query = "SELECT * FROM `cci_management_users`";
         $stmt= $mysqli->query($query);
 		if(false===$stmt){
 			trigger_error("Error in query: " . mysqli_connect_error(),E_USER_ERROR);
@@ -28,7 +28,7 @@ class DbFunction{
 	function login($loginid,$password){
 		$db = Database::getInstance();
 		$mysqli = $db->getConnection();
-		$query = "SELECT id, password FROM login where id=? and password=? ";
+		$query = "SELECT `id`, `password` FROM `cci_management_users` where `id`=? and `password`=? ";
 		$stmt= $mysqli->prepare($query);
 		if(false===$stmt){
 			trigger_error("Error in query: " . mysqli_connect_error(),E_USER_ERROR);
@@ -42,7 +42,7 @@ class DbFunction{
 				echo "<script>alert('Invalid password')</script>";
 				header('location:login.php');
 			} else {
-				header('location:view.php');
+				header('location:cci_list.php');
 			}
 		}
 	}
@@ -69,6 +69,14 @@ class DbFunction{
 		$query = "SELECT DISTINCT(`cci`.`" . $fieldname . "`) FROM `cci`";
 		$rs= $mysqli->query($query);
 		return $rs->fetch_all();
+	}
+
+	function get_reg_file_status() {
+		$db = Database::getInstance();
+        $mysqli = $db->getConnection();
+        $query = "SELECT * FROM `cci_reg_file_status`";
+        $rs= $mysqli->query($query);
+        return $rs->fetch_all();
 	}
 
 	function get_cci_details() {
