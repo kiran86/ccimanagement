@@ -69,7 +69,7 @@ $obj = new DbFunction();
                       <div class="card-header">
                         <form id="filter-form" method="POST">
                           <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                               <div class="form-floating">
                                 <select id="district" name="district" class="form-control">
                                   <option value="">Select District</option>
@@ -83,7 +83,7 @@ $obj = new DbFunction();
                                 <label for="district">District</label>
                               </div>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                               <div class="form-floating">
                                 <select id="run_by" name="run_by" class="form-control">
                                   <option value="">Select CCI run by</option>
@@ -97,20 +97,6 @@ $obj = new DbFunction();
                                 <label for="run_by">Run By</label>
                               </div>
                             </div>
-                            <div class="col-sm-4">
-                              <div class="form-floating">
-                                <select id="category" class="form-control" multiple>
-                                  <option value="">Select CCI Category</option>
-                                  <?php
-                                  $category = $obj->get_cci_categories();
-                                  foreach ($category as $c) {
-                                    echo '<option value="'. $c[0]. '">'. $c[1] . '</option>';
-                                  }
-                                 ?>
-                                </select>
-                                <label for="category">Category</label>
-                              </div>
-                            </div>
                             <div class="col-sm-2">
                               <div class="form-floating">
                                 <select id="pab_approval" name="pab_approval" class="form-control">
@@ -121,15 +107,14 @@ $obj = new DbFunction();
                                 <label for="pab_approval">Is PAB Approved?</label>
                               </div>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                               <div class="form-floating">
-                                <select id="valid_reg" name="valid_reg" class="form-control">
-                                  <option value="">Select one</option>
-                                  <option value="yes">Yes</option>
-                                  <option value="no">No</option>
-                                </select>
-                                <label for="valid_reg">Valid Registration?</label>
+                                <input type="date" id="reg_valid_upto" name="reg_valid_upto" class="form-control" min="<?php echo date("Y-m-d"); ?>"/>
+                                <label for="reg_valid_upto">Valid Registration till</label>
                               </div>
+                            </div>
+                            <div class="col-sm-1">
+                              <button id="reset-form" type="reset" class="btn btn-outline-dark btn-lg">Reset</button>
                             </div>
                           </div>
                         </form>
@@ -161,7 +146,7 @@ $obj = new DbFunction();
                   </div>
                 </div>
 
-                <!-- Modal for allotment edit form -->
+                <!-- Modal for cci edit form -->
                 <div class="modal fade" tab-index="-1" data-bs-backdrop="static" data-bs-keyboard="false" id="formModal">
                   <div class="modal-dialog modal-fullscreen">
                     <div class="modal-content">
@@ -233,6 +218,16 @@ $obj = new DbFunction();
 
         $("#run_by").on("change", function() {
           populateCCIData();
+        });
+
+        $("#reg_valid_upto").on("change", function() {
+          populateCCIData();
+        });
+
+        $("#filter-form").on("reset", function(e) {
+          setTimeout(function() {
+            populateCCIData();
+          }, 1);
         });
 
         // Get data from server and populate modal

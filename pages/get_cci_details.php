@@ -17,7 +17,8 @@
             . (empty($_POST['district']) ? "" : " AND `cci`.`district` = '" . $_POST['district'] . "'")
             . (empty($_POST['run_by']) ? "" : " AND `cci`.`run_by` = '" . $_POST['run_by'] . "'")
             . (empty($_POST['pab_approval']) ? "" : ($_POST['pab_approval'] == 'yes' ? " AND `cci`.`is_pab_approved` = true" : " AND `cci`.`is_pab_approved` = false"))
-			. " ORDER BY `cci`.`district`, `cci`.`cci_name`, `cci_unit_types`.`category`;";
+			. (empty($_POST['reg_valid_upto']) ? "" : " AND `cci`.`reg_valid_upto` <= '" . $_POST['reg_valid_upto'] . "'")
+            . " ORDER BY `cci`.`district`, `cci`.`cci_name`, `cci_unit_types`.`category`;";
     // echo $sql;
     $stmt = $mysqli->prepare($sql);
     if ($stmt === FALSE) {
