@@ -163,7 +163,7 @@ $obj = new DbFunction();
                   <div class="modal-dialog modal-fullscreen">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">Review and Edit Expenditure Allotment</h5>
+                        <h5 class="modal-title">Edit CCI Details</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body"></div>
@@ -283,15 +283,6 @@ $obj = new DbFunction();
                   fixedColumns: {
                     start: 3
                   },
-                  createdRow: (row, data, dataIndex) => {
-                    if (data[0] !== null && data[0].length > 0) {
-                      $(row).addClass('table-warnings');
-                    }
-                    if (data[0] !== null) {
-                      $(row).removeClass('table-warnings');
-                      $(row).addClass('table-successs');
-                    }
-                  },
                   select: 'single',
                   searching: true,
                   paging:true,
@@ -303,18 +294,7 @@ $obj = new DbFunction();
                 <?php if (isset ( $_SESSION ['login'] )) { ?>
                 cci_table.on('select', function (e, dt, type, indexes) {
                   var rowData = cci_table.row(indexes).data();
-                  if (rowData[0] > 0) {
-                    swal("Verified", "Allotment already verified and cannot be modified!", {
-                      icon: "info",
-                      buttons: {
-                        confirm: {
-                          className: "btn btn-info",
-                        },
-                      }
-                    })
-                  } else {
-                    populateFormModal(rowData[0] + ',' + rowData[1] + ',' + rowData[22]);
-                  }
+                  populateFormModal(rowData[1]);
                 })
                 <?php } ?>
               },
@@ -328,12 +308,12 @@ $obj = new DbFunction();
         }
         
         function populateFormModal(data) {
-          $('#formModal .modal-body').load('allotment_edit_form.php?data=' + data, function() {
+          $('#formModal .modal-body').load('cci_edit_form.php?data=' + data, function() {
             $('#formModal .modal-body').css("overflow","hidden");
             $('#formModal').modal('show');
 
             // Submit the form
-            $('#fExpenditure').on('submit', function(e) {
+            $('#fCCIEdit').on('submit', function(e) {
                 e.preventDefault();
                 var action = e.originalEvent.submitter.value;
                 swal({
