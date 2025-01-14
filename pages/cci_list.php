@@ -1,10 +1,5 @@
 <?php
 session_start ();
-setlocale(LC_MONETARY, 'en_IN');
-
-if ( php_uname('s') != 'Darwin') {
-  $fmt = new NumberFormatter('en_IN', NumberFormatter::CURRENCY);
-}
 
 include('../config/DbFunction.php');
 include('../config/utilityfunc.php');

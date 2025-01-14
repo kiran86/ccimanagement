@@ -1,14 +1,8 @@
 <?php
 session_start ();
-setlocale(LC_MONETARY, 'en_IN');
 
 if (! (isset ( $_SESSION ['login'] ))) {
 	header ( 'location:../index.php' );
-}
-
-if ( php_uname('s') != 'Darwin') {
-  $fmt = new NumberFormatter('en_IN', NumberFormatter::DECIMAL);
-  $fmt->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
 }
 
 require_once "../config/DbFunction.php";
