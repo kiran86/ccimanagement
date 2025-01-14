@@ -213,6 +213,12 @@ $obj = new DbFunction();
                                 </select>
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <label for="i_cci_reg_file" class="col-sm-6 col-form-label">Registration Notification</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="file" name="i_cci_reg_file" id="i_cci_reg_file" accept="application/pdf">
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer text-end">
                         <button id="bSubmitcci_details" type="submit" value="Saved" class="btn btn-primary">
@@ -237,8 +243,8 @@ $obj = new DbFunction();
     </div>
 
     <script>
-        // Enable submit button if input changed
         $(document).ready(function() {
+            // Enable submit button if input changed
             $('#fCCIEdit')
                 .each(function () {
                     $(this).data('serialized', $(this).serialize())
@@ -253,21 +259,14 @@ $obj = new DbFunction();
 
             
             // Restrict input to integers
-            setInputFilter(document.getElementById('inputNMonths'), function(value) {
+            setInputFilter(document.getElementById('i_cci_pin'), function(value) {
                 return /^\d*$/.test(value)
             }, "Invalid input! Only numbers are allowed.");
-            setInputFilter(document.getElementById('inputChildrenDaysPerMonth'), function(value) {
+            setInputFilter(document.getElementById('i_cci_reg_no'), function(value) {
                 return /^\d*$/.test(value)
             }, "Invalid input! Only numbers are allowed.");
-            setInputFilter(document.getElementById('inputCWSNDaysPerMonth'), function(value) {
+            setInputFilter(document.getElementById('i_cci_strength'), function(value) {
                 return /^\d*$/.test(value)
-            }, "Invalid input! Only numbers are allowed.");
-            // Restricts input to numbers
-            setInputFilter(document.getElementById('inputAmntAdjustment'), function(value) {
-                return /^(\+|-)?(\d*\,*\.?\d*)$/.test(value);
-            }, "Invalid input! Only numbers are allowed.");
-            setInputFilter(document.getElementById('inputDistRecommendation'), function(value) {
-                return /^(\+|-)?(\d*\.?\d*)$/.test(value);
             }, "Invalid input! Only numbers are allowed.");
 
             // Recalculate cci_detailss on change of input
@@ -280,7 +279,13 @@ $obj = new DbFunction();
                 recalculateEstimate();
             });
 
-            // 
+            // Update pdf viewer on file change
+            $('#i_cci_reg_file').change(function() {
+                var file = $(this)[0].files[0];
+                var filename = file.name;
+                var ext = filename.
+                alert(ext);
+            });
         });
         // Restricts input for the given textbox to the given inputFilter function.
         function setInputFilter(textbox, inputFilter, errMsg) {
