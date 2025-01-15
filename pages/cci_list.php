@@ -281,6 +281,7 @@ $obj = new DbFunction();
                   fixedColumns: {
                     start: 3
                   },
+                  ordering: 'false',
                   select: 'single',
                   searching: true,
                   paging:true,

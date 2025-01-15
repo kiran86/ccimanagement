@@ -9,7 +9,8 @@
     // var_dump($_POST);
     $cci_data = [];
     // Get CCI data
-    $sql = "SELECT ROW_NUMBER() OVER (ORDER BY `cci`.`id`) sl_num, `cci`.`id`, `cci`.`district`, `cci`.`cci_name`,
+    $sql = "SELECT ROW_NUMBER() OVER (ORDER BY `cci`.`district`, `cci`.`run_by`, `cci`.`cci_name`, `cci_unit_types`.`category`, `cci`.`cci_unit_no`)
+                sl_num, `cci`.`id`, `cci`.`district`, `cci`.`cci_name`,
                 `cci`.`cci_unit_no`, `cci`.`cci_unit_gender`, `cci`.`run_by`, `cci_unit_types`.`category`, `cci`.`cci_unit_strength`,
                 IF(`cci`.`is_pab_approved`, 'Yes', 'No'), `cci`.`reg_no`, DATE_FORMAT(`cci`.`reg_date`,'%d/%m/%Y'),
                 DATE_FORMAT(`cci`.`reg_valid_upto`, '%d/%m/%Y')
@@ -24,7 +25,7 @@
             . (empty($_POST['pab_approval']) ? "" : ($_POST['pab_approval'] == 'yes' ? " AND `cci`.`is_pab_approved` = true" : " AND `cci`.`is_pab_approved` = false"))
 			. (empty($_POST['reg_valid_upto']) ? "" : " AND `cci`.`reg_valid_upto` <= '" . $_POST['reg_valid_upto'] . "'")
             . (empty($_POST['reg_file_status'])? "" : " AND `cci`.`reg_status` = '" . $_POST['reg_file_status']. "'")
-            . " ORDER BY `cci`.`district`, `cci`.`cci_name`, `cci_unit_types`.`category`;";
+            . ";";
     // echo $sql;
     $stmt = $mysqli->prepare($sql);
     if ($stmt === FALSE) {
