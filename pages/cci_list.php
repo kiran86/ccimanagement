@@ -249,7 +249,10 @@ $obj = new DbFunction();
         function populateCCIData() {
           var formFilter = document.getElementById('filter-form');
           var formData = new FormData(formFilter);
-          console.log(formData);
+          for (const [key, value] of formData) {
+            console.log(key + ': ' + value + '\n');
+          }
+          console.log(formData.getAll('key'));
           $.ajax({
               url: "get_cci_details.php",
               type: "POST",
