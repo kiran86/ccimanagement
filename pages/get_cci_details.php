@@ -26,7 +26,7 @@
 			. (empty($_POST['reg_valid_upto']) ? "" : " AND `cci`.`reg_valid_upto` <= '" . $_POST['reg_valid_upto'] . "'")
             . (empty($_POST['reg_file_status'])? "" : " AND `cci`.`reg_status` = '" . $_POST['reg_file_status']. "'")
             . ";";
-    // echo $sql;
+    error_log($sql);
     $stmt = $mysqli->prepare($sql);
     if ($stmt === FALSE) {
         trigger_error("Error in query: ". mysqli_connect_error(), E_USER_ERROR);
