@@ -47,6 +47,7 @@ $obj = new DbFunction();
     <link rel="stylesheet" href="../assets/css/plugins.min.css" />
     <link rel="stylesheet" href="../assets/css/kaiadmin.min.css" />
     <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.0.8/af-2.7.0/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.3/date-1.5.2/fc-5.0.1/fh-4.0.1/kt-2.12.1/r-3.0.2/rg-1.5.0/rr-1.5.0/sc-2.4.3/sb-1.7.1/sp-2.3.1/sl-2.0.3/sr-1.4.1/datatables.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.1.1/css/bootstrap5-toggle.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -61,6 +62,15 @@ $obj = new DbFunction();
                       <div class="card-header">
                         <form id="filter-form" method="POST">
                           <div class="row">
+                            <div class="col-sm-1">
+                              <div class="form-floating">
+                                  <input class="form-control" type="checkbox" checked data-toggle="toggle"
+                                  data-onlabel="<h6>Units</h6>" data-offlabel="<h6>Premises</h6>"
+                                  data-onstyle="success" data-offstyle="secondary"
+                                  data-onvalue="1" data-offvalue="0"
+                                  data-width="85" data-size="xs" id="unit_premises" name="unit_premises">
+                              </div>
+                            </div>
                             <div class="col-sm-2">
                               <div class="form-floating">
                                 <select id="district" name="district" class="form-control">
@@ -204,6 +214,9 @@ $obj = new DbFunction();
 
     <!-- Kaiadmin JS -->
     <script src="../assets/js/kaiadmin.min.js"></script>
+
+    <!-- BS Toggle Button JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.1.1/js/bootstrap5-toggle.jquery.min.js"></script>
     <script>
         $(document).ready(function() {
             $('li.nav-item').each(function() {
@@ -213,6 +226,10 @@ $obj = new DbFunction();
             });
             
             populateCCIData();
+        });
+
+        $("#unit_premises").on("change", function() {
+          populateCCIData();
         });
 
         $("#pab_approval").on("change", function() {
@@ -333,9 +350,8 @@ $obj = new DbFunction();
                   if (confirmed) {
                   e.preventDefault();
                   var formData = new FormData(this);
-                  formData.append('b_id', action);
                   $.ajax({
-                      url: "update_allotment.php",
+                      url: "update_cci.php",
                       type: "POST",
                       data: formData,
                       contentType: false,

@@ -91,6 +91,20 @@ class DbFunction{
         return $rs;
 	}
 
+	function get_ccis_of_district($district) {
+		$db = Database::getInstance();
+        $mysqli = $db->getConnection();
+        $sql = "SELECT `cci`.`id`, `cci`.`cci_name`, `cci_unit_types`.`type_of_child`
+				FROM `cci`
+				JOIN `unit_types` ON `cci`.`id` = `unit_types`.`cci_id`
+				JOIN `cci_unit_types` ON `unit_types`.`type_id` = `cci_unit_types`.`id`
+				WHERE `cci`.`district` = '" . $district . "'
+				AND `cci`.`colocated_with` = `cci`.`id`;";
+		// error_log($sql);
+        $rs = $mysqli->query($sql, MYSQLI_ASSOC);
+        return $rs;
+	}
+
 	function generate_csv($fy_qtr) {
 		$db = Database::getInstance();
 		$mysqli = $db->getConnection();

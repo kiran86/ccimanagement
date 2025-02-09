@@ -14,7 +14,7 @@ $data = $_GET['data'];
 $cci_id = explode(',', $data)[0];
 // Get CCI data
 $sql = "SELECT
-            `cci`.*
+            `cci`.*, '
         FROM
             `cci`
         WHERE
@@ -92,11 +92,11 @@ $obj = new DbFunction();
             <form id="fCCIEdit" action="" method="">
                 <div class="card border-dark">
                     <div class="card-body scrollable-card">
-                        <input type="hidden" class="form-control" name="cci-id" id="cci-id" value="<?php echo $cci_id ?>">
+                        <input type="hidden" class="form-control" name="cci_id" id="cci_id" value="<?php echo $cci_id ?>">
                         <div class="row mb-3">
-                            <label for="i-cci-dist" class="col-sm-6 col-form-label">District</label>
+                            <label for="i_cci_dist" class="col-sm-6 col-form-label">District</label>
                             <div class="col-sm-6">
-                                <select id="i-cci-dist" name="i-cci-dist" class="form-control">
+                                <select id="i_cci_dist" name="i_cci_dist" class="form-control">
                                     <option value="">Select District</option>
                                     <?php
                                     $districts = $obj->get_filter_values('district');
@@ -143,6 +143,20 @@ $obj = new DbFunction();
                             <label for="i_cci_unit_no" class="col-sm-6 col-form-label">Unit No</label>
                             <div class="col-sm-6">
                             <input type="text" class="form-control" id="i_cci_unit_no" name="i_cci_unit_no" value="<?php echo $cci_details['cci_unit_no'] ?>" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="i_cci_colocated_with" class="col-sm-6 col-form-label">Unit Colocated with</label>
+                            <div class="col-sm-6">
+                                <select id="i_cci_colocated_with" name="i_cci_colocated_with" class="form-control">
+                                    <option value="">Select CCI</option>
+                                    <?php
+                                    $cci = $obj->get_ccis_of_district($cci_details['district']);
+                                    foreach ($cci as $val) {
+                                        echo '<option value="'. $val['id']. '"'. ($cci_details['colocated_with'] == $val['id'] ? 'selected' : '') .'>'. $val['cci_name'] . ' (' . $val['type_of_child']. ')</option>';
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -194,7 +208,7 @@ $obj = new DbFunction();
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="i_cci_reg_status" class="col-sm-6 col-form-label">Registration valid upto</label>
+                            <label for="i_cci_reg_status" class="col-sm-6 col-form-label">Registration File Status</label>
                             <div class="col-sm-6">
                                 <select id="i_cci_reg_status" name="i_cci_reg_status" class="form-control">
                                   <option value="">Select one</option>
@@ -228,7 +242,7 @@ $obj = new DbFunction();
                 <div class="card-body">
                 <?php
                     if (isset($filename)) {
-                        echo '<iframe src="../recommendations/' . $filename . '" width="100%" height="100%"></iframe>';
+                        echo '<iframe src="../reg_files/' . $filename . '" width="100%" height="100%"></iframe>';
                     }
                 ?>
                 </div>
@@ -310,62 +324,6 @@ $obj = new DbFunction();
             }
             });
         });
-        }
-
-        // Recalculate the estimated value on change of inputs
-        function recalculateEstimate() {
-            var nMonths = parseInt(document.getElementById('inputNMonths').value);
-            var nQuarter = Math.ceil(nMonths / 3);
-            var childrenDaysPerMonth = parseInt(document.getElementById('inputChildrenDaysPerMonth').value);
-            var cwsnDaysPerMonth = parseInt(document.getElementById('inputCWSNDaysPerMonth').value);
-            var amntAdjustment = parseFloat(document.getElementById('inputAmntAdjustment').value.replace(/,/g,''));
-            var distRecommendation = parseFloat(document.getElementById('inputDistRecommendation').value.replace(/,/g,''));
-            
-            var maintenance_cost = parseFloat(document.getElementById('unitMaintenanceCost').value.replace(/,/g,''));
-            var bedding_cost = parseFloat(document.getElementById('unitBeddingCost').value.replace(/,/g,''));
-            var admin_expenses = parseFloat(document.getElementById('unitAdminCost').value.replace(/,/g,''));
-            var cwsn_equip = parseFloat(document.getElementById('unitCWSNEquipCost').value.replace(/,/g,''));
-            var cwsn_addl_grant = parseFloat(document.getElementById('unitCWSNAddlCost').value.replace(/,/g,''));
-            var cwsn_medical = parseFloat(document.getElementById('unitCWSNMedical').value.replace(/,/g,''));
-            var staff_sal = parseFloat(document.getElementById('unitStaffSalary').value.replace(/,/g,''));
-            var cwsn_staff_sal = parseFloat(document.getElementById('unitCWSNStaffSalary').value.replace(/,/g,''));
-
-            var new_maintenance_cost = maintenance_cost * childrenDaysPerMonth * nMonths;
-            var new_bedding_cost = bedding_cost * childrenDaysPerMonth * nQuarter;
-            var new_admin_expenses = admin_expenses * nQuarter;
-            var new_cwsn_equip = cwsn_equip * nQuarter;
-            var new_cwsn_addl_grant = cwsn_addl_grant * cwsnDaysPerMonth * nMonths;
-            var new_cwsn_medical = cwsn_medical * cwsnDaysPerMonth * nMonths;
-            var new_staff_sal = staff_sal * nQuarter;
-            var new_cwsn_staff_sal = cwsn_staff_sal * nQuarter;
-            var new_total_salary = new_staff_sal + new_cwsn_staff_sal;
-            var new_total_recurrig = new_maintenance_cost + 
-                                        new_bedding_cost + 
-                                        new_admin_expenses +
-                                        new_cwsn_equip + 
-                                        new_cwsn_addl_grant +
-                                        new_cwsn_medical +
-                                        new_total_salary +
-                                        amntAdjustment;
-            var new_fund_released = new_total_recurrig > distRecommendation ? distRecommendation : new_total_recurrig;
-            
-            $('.nMonths').val(nMonths);
-            $('.nQuarter').val(nQuarter);
-            $('.cDays').val(childrenDaysPerMonth);
-            $('.cwsnDays').val(cwsnDaysPerMonth);
-            $('#inputMaintenanceCost').val(Number(new_maintenance_cost).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigitis: 2}));
-            $('#inputBeddingCost').val(Number(new_bedding_cost).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigitis: 2}));
-            $('#inputAdminCost').val(Number(new_admin_expenses).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigitis: 2}));
-            $('#inputCWSNEquipCost').val(Number(new_cwsn_equip).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-            $('#inputCWSNAddlCost').val(Number(new_cwsn_addl_grant).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-            $('#inputCWSNMedical').val(Number(new_cwsn_medical).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-            $('#inputStaffSalary').val(Number(new_staff_sal).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-            $('#inputCWSNStaffSalary').val(Number(new_cwsn_staff_sal).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-            $('#inputtotalSalary').val(Number(new_total_salary).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-            $('#inputtotalRecurring').val(Number(new_total_recurrig).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-            // $('#inputAmntAdjustment').val(Number(amntAdjustment).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-            // $('#inputDistRecommendation').val(Number(distRecommendation).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-            $('#inputFundReleased').val(Number(new_fund_released).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
         }
     </script>
 </body>
