@@ -62,6 +62,7 @@ $obj = new DbFunction();
                       <div class="card-header">
                         <form id="filter-form" method="POST">
                           <div class="row">
+                            <?php if (!isset($_SESSION['login'])) { ?>
                             <div class="col-sm-1">
                               <div class="form-floating">
                                   <input class="form-control" type="checkbox" checked data-toggle="toggle"
@@ -71,6 +72,7 @@ $obj = new DbFunction();
                                   data-width="85" data-size="xs" id="unit_premises" name="unit_premises">
                               </div>
                             </div>
+                            <?php } ?>
                             <div class="col-sm-2">
                               <div class="form-floating">
                                 <select id="district" name="district" class="form-control">

@@ -13,13 +13,12 @@ $mysqli = $db->getConnection();
 $data = $_GET['data'];
 $cci_id = explode(',', $data)[0];
 // Get CCI data
-$sql = "SELECT
-            `cci`.*, '
-        FROM
-            `cci`
-        WHERE
-            `cci`.`id` = ?;";
-// echo $sql;
+$sql = "SELECT `cci`.*, `cci_unit_types`.`category`
+        FROM `cci`
+        JOIN `unit_types` ON `cci`.`id` = `unit_types`.`cci_id`
+        JOIN `cci_unit_types` ON `unit_types`.`type_id` = `cci_unit_types`.`id`
+        WHERE `cci`.`id` = ?;";
+// error_log($sql);
 $stmt = $mysqli->prepare($sql);
 if ($stmt === FALSE) {
     trigger_error("Error in query: ". mysqli_connect_error(), E_USER_ERROR);
@@ -143,6 +142,20 @@ $obj = new DbFunction();
                             <label for="i_cci_unit_no" class="col-sm-6 col-form-label">Unit No</label>
                             <div class="col-sm-6">
                             <input type="text" class="form-control" id="i_cci_unit_no" name="i_cci_unit_no" value="<?php echo $cci_details['cci_unit_no'] ?>" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="i_cci_category" class="col-sm-6 col-form-label">Category</label>
+                            <div class="col-sm-6">
+                                <select id="i_cci_category" name="i_cci_category" class="form-control">
+                                    <option value="">Select CCI Category</option>
+                                    <?php
+                                    $run_by = $obj->get_cci_categories();
+                                    foreach ($run_by as $val) {
+                                        echo '<option value="'. $val[0]. '"'. ($cci_details['category'] == $val[1] ? 'selected' : '') .'>'. $val[1] . '</option>';
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-3">
