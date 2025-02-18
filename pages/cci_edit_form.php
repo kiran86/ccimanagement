@@ -283,7 +283,7 @@ $obj = new DbFunction();
             setInputFilter(document.getElementById('i_cci_pin'), function(value) {
                 return /^\d*$/.test(value)
             }, "Invalid input! Only numbers are allowed.");
-            setInputFilter(document.getElementById('i_cci_reg_no'), function(value) {
+            setInputFilter(document.getElementById('i_cci_unit_no'), function(value) {
                 return /^\d*$/.test(value)
             }, "Invalid input! Only numbers are allowed.");
             setInputFilter(document.getElementById('i_cci_strength'), function(value) {
