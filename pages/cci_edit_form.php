@@ -290,16 +290,6 @@ $obj = new DbFunction();
                 return /^\d*$/.test(value)
             }, "Invalid input! Only numbers are allowed.");
 
-            // Recalculate cci_detailss on change of input
-            $('#inputNMonths, #inputChildrenDaysPerMonth, #inputCWSNDaysPerMonth').change(function() {
-                recalculateEstimate();
-            });
-
-            // Recalculate the estimated value on change of input
-            $('#inputAmntAdjustment, #inputDistRecommendation').change(function() {
-                recalculateEstimate();
-            });
-
             // Update pdf viewer on file change
             $('#i_cci_reg_file').change(function() {
                 var file = $(this)[0].files[0];
