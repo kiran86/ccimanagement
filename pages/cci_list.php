@@ -228,6 +228,7 @@ $obj = new DbFunction();
             });
             
             populateCCIData();
+
         });
 
         $("#unit_premises").on("change", function() {
