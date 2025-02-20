@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 09, 2025 at 12:34 PM
+-- Generation Time: Feb 20, 2025 at 08:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,7 +42,7 @@ CREATE TABLE `cci` (
   `reg_no` varchar(255) DEFAULT NULL,
   `reg_date` date DEFAULT NULL,
   `reg_valid_upto` date DEFAULT NULL,
-  `reg_status` double DEFAULT NULL,
+  `reg_status` int(11) DEFAULT NULL,
   `contact_name` varchar(255) DEFAULT NULL,
   `contact_desg` varchar(255) DEFAULT NULL,
   `contact_phno` int(11) DEFAULT 0

@@ -94,7 +94,7 @@ class DbFunction{
 	function get_ccis_of_district($district) {
 		$db = Database::getInstance();
         $mysqli = $db->getConnection();
-        $sql = "SELECT `cci`.`id`, `cci`.`cci_name`, `cci_unit_types`.`type_of_child`
+        $sql = "SELECT `cci`.`id`, `cci`.`cci_name`, `cci`.`cci_unit_no`, `cci_unit_types`.`type_of_child`
 				FROM `cci`
 				JOIN `unit_types` ON `cci`.`id` = `unit_types`.`cci_id`
 				JOIN `cci_unit_types` ON `unit_types`.`type_id` = `cci_unit_types`.`id`

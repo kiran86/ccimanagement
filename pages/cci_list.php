@@ -361,11 +361,11 @@ $obj = new DbFunction();
                       processData: false,
                       dataType: 'json',
                       success: function(response) {
-                          // console.log(response);
+                          console.log(response);
                           if (response.status) {
                               swal({
                                   title: "Successfull!",
-                                  text: "Allotment " + response.message + " successfully.",
+                                  text: response.message,
                                   icon: "success",
                                   buttons: {
                                   confirm: {
@@ -379,7 +379,7 @@ $obj = new DbFunction();
                           } else {
                               swal({
                                   title: "Error!",
-                                  text: "Some error occured. Operation failed.",
+                                  text: response.message,
                                   icon: "error",
                                   buttons: {
                                       confirm: {
@@ -390,7 +390,7 @@ $obj = new DbFunction();
                           }
                       },
                       error: function(xhr, status, error) {
-                          alert("Error updating expenditure: " + error);
+                          alert("Error updating CCI information: " + error);
                       }
                   });
                 }

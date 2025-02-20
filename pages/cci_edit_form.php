@@ -145,6 +145,20 @@ $obj = new DbFunction();
                             </div>
                         </div>
                         <div class="row mb-3">
+                            <label for="i_cci_colocated_with" class="col-sm-6 col-form-label">Unit Colocated with</label>
+                            <div class="col-sm-6">
+                                <select id="i_cci_colocated_with" name="i_cci_colocated_with" class="form-control">
+                                    <option value="">Select CCI</option>
+                                    <?php
+                                    $cci = $obj->get_ccis_of_district($cci_details['district']);
+                                    foreach ($cci as $val) {
+                                        echo '<option value="'. $val['id']. '"'. ($cci_details['colocated_with'] == $val['id'] ? 'selected' : '') .'>'. $val['cci_name'] . ' (' . $val['type_of_child']. ')' . ' Unit ' . $val['cci_unit_no'] .'</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                             <label for="i_cci_category" class="col-sm-6 col-form-label">Category</label>
                             <div class="col-sm-6">
                                 <select id="i_cci_category" name="i_cci_category" class="form-control">
@@ -153,20 +167,6 @@ $obj = new DbFunction();
                                     $run_by = $obj->get_cci_categories();
                                     foreach ($run_by as $val) {
                                         echo '<option value="'. $val[0]. '"'. ($cci_details['category'] == $val[1] ? 'selected' : '') .'>'. $val[1] . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="i_cci_colocated_with" class="col-sm-6 col-form-label">Unit Colocated with</label>
-                            <div class="col-sm-6">
-                                <select id="i_cci_colocated_with" name="i_cci_colocated_with" class="form-control">
-                                    <option value="">Select CCI</option>
-                                    <?php
-                                    $cci = $obj->get_ccis_of_district($cci_details['district']);
-                                    foreach ($cci as $val) {
-                                        echo '<option value="'. $val['id']. '"'. ($cci_details['colocated_with'] == $val['id'] ? 'selected' : '') .'>'. $val['cci_name'] . ' (' . $val['type_of_child']. ')</option>';
                                     }
                                     ?>
                                 </select>
@@ -238,6 +238,24 @@ $obj = new DbFunction();
                             <label for="i_cci_reg_file" class="col-sm-6 col-form-label">Registration Notification</label>
                             <div class="col-sm-6">
                                 <input class="form-control" type="file" name="i_cci_reg_file" id="i_cci_reg_file" accept="application/pdf">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="i_cci_contact_name" class="col-sm-6 col-form-label">Contact Person Name</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="i_cci_contact_name" name="i_cci_contact_name" value="<?php echo $cci_details['contact_person_name'] ?>" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="i_cci_contact_designation" class="col-sm-6 col-form-label">Contact Person Designation</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="i_cci_contact_designation" name="i_cci_contact_designation" value="<?php echo $cci_details['contact_person_designation'] ?>" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="i_cci_contact_no" class="col-sm-6 col-form-label">Contact Person Number</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="i_cci_contact_no" name="i_cci_contact_no" value="<?php echo $cci_details['contact_person_no'] ?>" />
                             </div>
                         </div>
                     </div>
