@@ -235,12 +235,6 @@ $obj = new DbFunction();
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="i_cci_reg_file" class="col-sm-6 col-form-label">Registration Notification</label>
-                            <div class="col-sm-6">
-                                <input class="form-control" type="file" name="i_cci_reg_file" id="i_cci_reg_file" accept="application/pdf">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
                             <label for="i_cci_contact_name" class="col-sm-6 col-form-label">Contact Person Name</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="i_cci_contact_name" name="i_cci_contact_name" value="<?php echo $cci_details['contact_person_name'] ?>" />
@@ -256,6 +250,12 @@ $obj = new DbFunction();
                             <label for="i_cci_contact_no" class="col-sm-6 col-form-label">Contact Person Number</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="i_cci_contact_no" name="i_cci_contact_no" value="<?php echo $cci_details['contact_person_no'] ?>" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="i_cci_reg_file" class="col-sm-6 col-form-label">Registration Notification</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="file" name="i_cci_reg_file" id="i_cci_reg_file" accept="application/pdf">
                             </div>
                         </div>
                     </div>

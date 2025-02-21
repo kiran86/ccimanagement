@@ -48,7 +48,7 @@
                 SET 
                     `district` = ?,
                     `cci_name` = ?,
-                    `cci_address` = ?,
+                    `address` = ?,
                     `pin` = ?,
                     `run_by` = ?,
                     `cci_unit_no` = ?, 
