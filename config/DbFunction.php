@@ -16,7 +16,7 @@ class DbFunction{
 	function get_user($user_id) {
 		$db = Database::getInstance();
         $mysqli = $db->getConnection();
-        $query = "SELECT `user_type` FROM `login` WHERE `id` = '$user_id'";
+        $query = "SELECT `user_type` FROM `cci_management_users` WHERE `id` = '$user_id'";
         $stmt= $mysqli->query($query);
 		if(false===$stmt){
 			trigger_error("Error in query: " . mysqli_connect_error(),E_USER_ERROR);

@@ -4,7 +4,7 @@ include('../config/utilityfunc.php');
 $obj = new DbFunction();
 session_start ();
 if (! (isset ( $_SESSION ['login'] ))) {
-  $user = $obj->get_user($_SESSION['login']);
+  // $user = $obj->get_user($_SESSION['login']);
 }
 ?> 
 
@@ -57,7 +57,7 @@ if (! (isset ( $_SESSION ['login'] ))) {
         <?php include('sidebar.php');?>
         <div class="main-panel">
           <div class="main-header">
-            <?php include('header.php');?>
+            <?php //include('header.php');?>
           </div>
           <div class="page-inner">
             <h2>Dashboard</h2>
