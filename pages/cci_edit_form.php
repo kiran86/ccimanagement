@@ -32,7 +32,7 @@ if ($stmt->execute()) {
     die(E_USER_ERROR);
 }
 // print_r($cci_details);
-
+$filename = "../reg_files/" . $cci_details['id'] . ".pdf";
 $obj = new DbFunction();
 ?>
 
@@ -256,6 +256,7 @@ $obj = new DbFunction();
                             <label for="i_cci_reg_file" class="col-sm-6 col-form-label">Registration Notification</label>
                             <div class="col-sm-6">
                                 <input class="form-control" type="file" name="i_cci_reg_file" id="i_cci_reg_file" accept="application/pdf">
+                                <input type="hidden" name="cci_reg_file" id="cci_reg_file" value=""/>
                             </div>
                         </div>
                     </div>
@@ -271,11 +272,7 @@ $obj = new DbFunction();
         <div class="col-sm-6">
             <div class="card border-dark text-bg-dark non-scrollable-card">
                 <div class="card-body">
-                <?php
-                    if (isset($filename)) {
-                        echo '<iframe src="../reg_files/' . $filename . '" width="100%" height="100%"></iframe>';
-                    }
-                ?>
+                    <iframe src="<?php echo isset($filename) ? $filename : ''?>" width="100%" height="100%" id="iframeRegFile"></iframe>
                 </div>
             </div>
         </div>
@@ -286,16 +283,15 @@ $obj = new DbFunction();
             // Enable submit button if input changed
             $('#fCCIEdit')
                 .each(function () {
-                    $(this).data('serialized', $(this).serialize())
+                    $(this).data('serialized', $(this).serialize());
                 })
                 .on('change input', function () {
                     $(this)
                         .find('#bSubmitcci_details')
-                            .prop('disabled', $(this).data('serialized') == $(this).serialize());
+                            .prop('disabled', $(this).data('serialized') !== $(this).serialize());
                 })
                 .find('#bSubmitcci_details')
                     .prop('disabled', true);
-
             
             // Restrict input to integers
             setInputFilter(document.getElementById('i_cci_pin'), function(value) {
@@ -310,10 +306,9 @@ $obj = new DbFunction();
 
             // Update pdf viewer on file change
             $('#i_cci_reg_file').change(function() {
-                var file = $(this)[0].files[0];
-                var filename = file.name;
-                var ext = filename.
-                alert(ext);
+                // Update serialized data to enable submit button
+                $('#fCCIEdit').data('serialized', $('#fCCIEdit').serialize());
+                $('#bSubmitcci_details').prop('disabled', false);
             });
         });
         // Restricts input for the given textbox to the given inputFilter function.

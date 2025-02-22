@@ -401,6 +401,8 @@ $obj = new DbFunction();
 
         formModal.addEventListener('hidden.bs.modal', function(event) {
           cci_table.rows().deselect();
+          // reset iframe src
+          $('#iframeRegFile').attr('src', '');
         });
 
         </script>

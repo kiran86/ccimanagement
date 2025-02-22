@@ -12,7 +12,10 @@
 	$mysqli = $db->getConnection();
 
     $status = null;
-    error_log(print_r($_POST, true));
+    
+    // error_log(print_r($_POST, true));
+    // error_log(print_r($_FILES, true));
+
     // Fetch POST data
     $cci_id = $_POST['cci_id'];
     $district = $_POST['i_cci_dist'];
@@ -33,6 +36,9 @@
     $cci_contact_name = $_POST['i_cci_contact_name'];
     $cci_contact_designation = $_POST['i_cci_contact_designation'];
     $cci_contact_no = $_POST['i_cci_contact_no'];
+
+    // Registration notification file upload parameters
+    $reg_file_dir = dirname(__DIR__). "/reg_files/";
 
     // Check database connection
     if ($mysqli->connect_error) {
@@ -110,6 +116,16 @@
             throw new Exception("Error updating CCI unit type: " . $stmt->error);
         } else {
             $stmt->close();
+        }
+        
+        // Upload registration notification file if provided
+        if ($_FILES['i_cci_reg_file']['size'] > 0) {
+            $reg_file_name = $cci_id . ".pdf";
+            $reg_file_tmp_name = $_FILES['i_cci_reg_file']['tmp_name'];
+            $reg_file_path = $reg_file_dir . $reg_file_name;
+            if (!move_uploaded_file($reg_file_tmp_name, $reg_file_path)) {
+                throw new Exception("Failed to upload registration notification file");
+            }
         }
 
         // Commit transaction
