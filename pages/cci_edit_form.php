@@ -237,19 +237,19 @@ $obj = new DbFunction();
                         <div class="row mb-3">
                             <label for="i_cci_contact_name" class="col-sm-6 col-form-label">Contact Person Name</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="i_cci_contact_name" name="i_cci_contact_name" value="<?php echo $cci_details['contact_person_name'] ?>" />
+                                <input type="text" class="form-control" id="i_cci_contact_name" name="i_cci_contact_name" value="<?php echo $cci_details['contact_name'] ?>" />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="i_cci_contact_designation" class="col-sm-6 col-form-label">Contact Person Designation</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="i_cci_contact_designation" name="i_cci_contact_designation" value="<?php echo $cci_details['contact_person_designation'] ?>" />
+                                <input type="text" class="form-control" id="i_cci_contact_designation" name="i_cci_contact_designation" value="<?php echo $cci_details['contact_desg'] ?>" />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="i_cci_contact_no" class="col-sm-6 col-form-label">Contact Person Number</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" id="i_cci_contact_no" name="i_cci_contact_no" value="<?php echo $cci_details['contact_person_no'] ?>" />
+                                <input type="text" class="form-control" id="i_cci_contact_no" name="i_cci_contact_no" value="<?php echo $cci_details['contact_phno'] ?>" />
                             </div>
                         </div>
                         <div class="row mb-3">

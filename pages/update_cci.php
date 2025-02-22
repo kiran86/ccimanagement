@@ -45,7 +45,8 @@
     try {
         // Update cci table
         $query = "UPDATE `cci` 
-                SET 
+                SET  
+                    `colocated_with` = ?, 
                     `district` = ?,
                     `cci_name` = ?,
                     `address` = ?,
@@ -54,8 +55,7 @@
                     `cci_unit_no` = ?, 
                     `cci_unit_gender` = ?, 
                     `cci_unit_strength` = ?, 
-                    `is_pab_approved` = ?, 
-                    `colocated_with` = ?, 
+                    `is_pab_approved` = ?,
                     `reg_no` = ?, 
                     `reg_date` = ?, 
                     `reg_valid_upto` = ?, 
@@ -69,9 +69,28 @@
             trigger_error("Error in query: ". mysqli_connect_error(), E_USER_ERROR);
             return false;
         }
-        $stmt->bind_param('sssisisiissssissis', $district, $cci_name, $cci_address, $cci_addr_pin, $cci_run_by, $cci_unit_no, $cci_gender, $cci_strength, $cci_is_pab, $cci_colocated_with, $cci_reg_no, $cci_reg_date, $cci_reg_valid_upto, $cci_reg_status, $cci_contact_name, $cci_contact_designation, $cci_contact_no, $cci_id);
-        if ($stmt->execute()) {
-            throw new Exception("Error updating CCI information: " . $stmt->error);
+        $stmt->bind_param('ssssisisiisssissis',
+                            $cci_colocated_with,
+                            $district,
+                            $cci_name,
+                            $cci_address,
+                            $cci_addr_pin,
+                            $cci_run_by,
+                            $cci_unit_no,
+                            $cci_gender,
+                            $cci_strength,
+                            $cci_is_pab,
+                            $cci_reg_no,
+                            $cci_reg_date,
+                            $cci_reg_valid_upto,
+                            $cci_reg_status,
+                            $cci_contact_name,
+                            $cci_contact_designation,
+                            $cci_contact_no,
+                            $cci_id
+                        );
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to update CCI information: " . $stmt->error);
         } else {
             $stmt->close();
         }
@@ -87,7 +106,7 @@
             return false;
         }
         $stmt->bind_param('is', $cci_category, $cci_id);
-        if ($stmt->execute()) {
+        if (!$stmt->execute()) {
             throw new Exception("Error updating CCI unit type: " . $stmt->error);
         } else {
             $stmt->close();
