@@ -272,7 +272,7 @@ $obj = new DbFunction();
         <div class="col-sm-6">
             <div class="card border-dark text-bg-dark non-scrollable-card">
                 <div class="card-body">
-                    <iframe src="<?php echo isset($filename) ? $filename : ''?>" width="100%" height="100%" id="iframeRegFile"></iframe>
+                    <iframe src="<?php echo isset($filename) && file_exists($filename) ? $filename : ''?>" width="100%" height="100%" id="iframeRegFile"></iframe>
                 </div>
             </div>
         </div>
@@ -286,9 +286,11 @@ $obj = new DbFunction();
                     $(this).data('serialized', $(this).serialize());
                 })
                 .on('change input', function () {
+                    console.log($(this).data('serialized'));
+                    console.log($(this).serialize());
                     $(this)
                         .find('#bSubmitcci_details')
-                            .prop('disabled', $(this).data('serialized') !== $(this).serialize());
+                            .prop('disabled', $(this).data('serialized') == $(this).serialize());
                 })
                 .find('#bSubmitcci_details')
                     .prop('disabled', true);
@@ -304,12 +306,11 @@ $obj = new DbFunction();
                 return /^\d*$/.test(value)
             }, "Invalid input! Only numbers are allowed.");
 
-            // Update pdf viewer on file change
+            // Set cci_reg_file value to file path
             $('#i_cci_reg_file').change(function() {
-                // Update serialized data to enable submit button
-                $('#fCCIEdit').data('serialized', $('#fCCIEdit').serialize());
-                $('#bSubmitcci_details').prop('disabled', false);
+                $('#cci_reg_file').val($(this).val());
             });
+
         });
         // Restricts input for the given textbox to the given inputFilter function.
         function setInputFilter(textbox, inputFilter, errMsg) {

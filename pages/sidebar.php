@@ -28,9 +28,9 @@
         <div class="sidebar-content">
         <ul class="nav nav-secondary" id="side-menu">
             <li class="nav-item">
-                <a href="view.php" class="">
-                    <i class="fas fa-home"></i>
-                    <p>Dashboard</p>
+                <a href="cci_list.php" class="">
+                    <i class="far fa-list-alt"></i>
+                    CCI List
                 </a>
             </li>
             <?php if (isset ( $_SESSION ['login'] )  && ($_SESSION['login'] == 1)) { ?>
@@ -40,14 +40,6 @@
                     Add New CCI
                 </a>
             </li>
-            <?php } ?>
-            <li class="nav-item">
-                <a href="cci_list.php" class="">
-                    <i class="far fa-list-alt"></i>
-                    CCI List
-                </a>
-            </li>
-            <?php if (isset ( $_SESSION ['login'] )) { ?>
             <li class="nav-item">
                 <a href="logout.php" class="nav-link link-body-emphasis">
                     <i class="fas fa-sign-out-alt"></i>
