@@ -1,7 +1,9 @@
 <?php
 	session_start ();
-	if (!(isset( $_SESSION ['login']))) {
-	}
+	
+    if (! (isset ( $_SESSION ['login'] ))) {
+        header ( 'location:../cci_list.php' );
+    }
 
     include('../config/Database.php');
 	$db = Database::getInstance();

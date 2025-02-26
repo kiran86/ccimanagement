@@ -2,7 +2,7 @@
 session_start ();
 
 if (! (isset ( $_SESSION ['login'] ))) {
-	header ( 'location:../index.php' );
+	header ( 'location:../cci_list.php' );
 }
 
 require_once "../config/DbFunction.php";
