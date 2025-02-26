@@ -1,17 +1,13 @@
 <?php
 	session_start ();
 	
-    if (! (isset ( $_SESSION ['login'] ))) {
-        header ( 'location:../cci_list.php' );
-    }
-
     include('../config/Database.php');
 	$db = Database::getInstance();
 	$mysqli = $db->getConnection();
     // var_dump($_POST);
     $cci_data = [];
     // Get CCI data
-    if (boolval($_POST['unit_premises'])) {
+    if (boolval($_POST['unit_premises']) or isset($_SESSION['login'])) {
         $sql = "SELECT ROW_NUMBER() OVER (ORDER BY `cci`.`district`, `cci`.`run_by`, `cci`.`cci_name`, `cci_unit_types`.`category`, `cci`.`cci_unit_no`)
                 sl_num, `cci`.`id`, `cci`.`district`, `cci`.`cci_name`,
                 `cci`.`cci_unit_no`, `cci`.`cci_unit_gender`, `cci`.`run_by`, `cci_unit_types`.`category`, `cci`.`cci_unit_strength`,

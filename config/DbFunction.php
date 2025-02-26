@@ -98,8 +98,7 @@ class DbFunction{
 				FROM `cci`
 				JOIN `unit_types` ON `cci`.`id` = `unit_types`.`cci_id`
 				JOIN `cci_unit_types` ON `unit_types`.`type_id` = `cci_unit_types`.`id`
-				WHERE `cci`.`district` = '" . $district . "'
-				AND `cci`.`colocated_with` = `cci`.`id`;";
+				WHERE `cci`.`district` = '" . $district . "';";
 		// error_log($sql);
         $rs = $mysqli->query($sql, MYSQLI_ASSOC);
         return $rs;
