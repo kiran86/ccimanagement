@@ -284,18 +284,24 @@ $obj = new DbFunction();
                   data: response.ccidata,
                   columnDefs: [
                     {
-                      createdCell: function(td) {
-                        $(td).addClass('text-center');
-                      }
+                      targets: [1], visible: false
                     },
                     {
-                      targets: [1], visible: false
+                      targets: [10, 11, 12], visible: $('#unit_premises').prop('checked')
+                    },
+                    {
+                      targets: [4],
+                      title: $('#unit_premises').prop('checked') ? 'Unit No.<br>(4)' : 'Total Units<br>(4)'
                     },
                     { 
                       targets: [4, 8, 11, 12],
                       createdCell: function (td) {
                         $(td).addClass('text-end');
                       }
+                    },
+                    {
+                      className: 'dt-head-center',
+                      targets: ["_all"]
                     }
                   ],
                   fixedColumns: {
